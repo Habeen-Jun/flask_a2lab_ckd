@@ -1,0 +1,1854 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "AI 바우처 사업에서 구현한 A2LAB 분석 솔루션 API 문서",
+      "version": "1.0.0",
+      "author": "Habeen Jun",
+      "title": "A2lab ckd Flask",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "tags": [
+      {
+        "name": "Products API",
+        "description": "Test API"
+      }
+    ],
+     "servers": [
+          {
+          "url": "/"
+          }
+      ],
+         "components": {
+          "schemas": {
+              "projectList": {
+                  "type": "object",
+                  "properties": {
+                      "idx": {
+                      "type": "integer"
+                      },
+                      "pname": {
+                      "type": "string"
+                      },
+                      "pmemo": {
+                        "type": "string"
+                      },
+                      "user": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      }
+                        
+                  }
+              },
+              "editProject": {
+                "type": "object",
+                "properties": {
+                    "pid": {
+                    "type": "integer"
+                    },
+                    "pname": {
+                    "type": "string"
+                    },
+                    "pmemo": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                      
+                }
+              },
+              "CreateProject": {
+                "type": "object",
+                "properties": {
+                    "pname": {
+                    "type": "integer"
+                    },
+                    "pmemo": {
+                    "type": "string"
+                    },
+                    "pid": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                      
+                }
+              },
+              "DuplicateData": {
+                "type": "object",
+                "properties": {
+                    "pid": {
+                    "type": "integer"
+                    },
+                    "did": {
+                    "type": "string"
+                    },
+                    "dname": {
+                      "type": "string"
+                    },
+                    "dmemo": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                      
+                }
+              },
+              "EditData": {
+                "type": "object",
+                "properties": {
+                    "dname": {
+                    "type": "integer"
+                    },
+                    "dmemo": {
+                    "type": "string"
+                    },
+                    "pid": {
+                      "type": "string"
+                    },
+                    "did": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                      
+                }
+              },
+              "Data": {
+                "type": "object",
+                "properties": {
+                    "idx": {
+                    "type": "integer"
+                    } 
+                }
+              },
+              "UploadFile": {
+                "type": "object",
+                "properties": {
+                    "did": {
+                    "type": "integer"
+                    },
+                    "pid": {
+                    "type": "string"
+                    },
+                    "dname": {
+                      "type": "string"
+                    },
+                    "file": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                      
+                }
+              },
+              "Id":{
+              "type" : "integer",
+              "properties" : {
+                  "name" : {
+                      "type" : "integer"
+                  }
+              }
+          },
+              "update":{
+                "type": "object",
+                "properties" :{
+                  "name": {
+                      "type": "string"
+                      },
+                    "description": {
+                      "type": "string"
+                    },
+                    "completed": {
+                      "type": "boolean"
+                    }
+                }
+              }
+          }
+      },
+       "paths": {
+          "/aimodels/deleteallmodel/{data_id}": {
+              "delete": {
+              "tags": [
+                  "aimodels"
+              ],
+              "summary": "데이터셋에 해당하는 모델 전체를 삭제한다.",
+              "parameters":[{
+                "name": "data_id",
+                "in": "path",
+                "description": "data_id",
+                "type": "string"
+              }],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                      "$ref": "#/components/schemas/TodoList"
+                      }
+                  },
+                  "404": {
+                      "description": "NOT FOUND",
+                      "schema": {
+                      "$ref": "#/components/schemas/TodoList"
+                      }
+              }
+              }
+              }
+          },
+          "/aimodels/deletemodel/{model_id}":{
+            "delete": {
+                "tags": [
+                    "aimodels"
+                ],
+                "summary": "모델(하나)를 삭제한다",
+                "parameters":[{
+                  "name": "model_id",
+                  "in": "path",
+                  "description": "model_id",
+                  "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                        "$ref": "#/components/schemas/TodoList"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema": {
+                        "$ref": "#/components/schemas/TodoList"
+                        }
+                }
+                }
+                }
+          },
+          "/aimodels/modellist/{data_id}":{
+            "get" :{
+                "tags": [
+                     "aimodels"
+                 ],
+               "summary": "데이터 id를 전달받아 해당 데이터에 포함된 모델 리스트를 반환",
+               "parameters":[{
+                 "name": "data_id",
+                 "in": "path",
+                 "description": "data_id",
+                 "type": "string"
+               }],
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+           }
+           }
+           }
+          },
+          "/datasets/datalist/{project_id}":{
+            "get" :{
+                "tags": [
+                     "datasets"
+                 ],
+               "summary": "프로젝트 id를 전달받아 해당 프로젝트에 포함된 데이터 리스트를 반환",
+               "parameters":[{
+                 "name": "project_id",
+                 "in": "path",
+                 "description": "project_id",
+                 "type": "string"
+               }],
+               "responses": {
+                "200": {
+                 "description": "OK",
+                 "content":{ 
+                    "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Data"
+                    }
+                  }
+                  }
+                }
+               }
+           }
+          },
+          "/datasets/deletealldata/{project_id}":{
+            "delete" :{
+                "tags": [
+                     "datasets"
+                 ],
+               "summary": "데이터(전체)를 삭제한다",
+               "parameters":[{
+                 "name": "project_id",
+                 "in": "path",
+                 "description": "project_id",
+                 "type": "string"
+               }],
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+           }
+           }
+           }
+          },
+          "/datasets/deletedata/{data_id}":{
+            "delete" :{
+                "tags": [
+                     "datasets"
+                 ],
+               "summary": "데이터(하나)를 삭제한다",
+               "parameters":[{
+                 "name": "data_id",
+                 "in": "path",
+                 "description": "data_id",
+                 "type": "string"
+               }],
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+           }
+           }
+           }
+          },
+          "/datasets/duplicatedata":{
+            "post" :{
+                "tags": [
+                     "datasets"
+                 ],
+               "summary": "신규 파일을 업로드한다",
+               "consumes": "application/json",
+              "requestBody": {
+                "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "pname": {
+                        "type": "string",
+                        "format": "string"
+                      },
+                      "pmemo": {
+                        "type": "string",
+                        "format": "string"
+                      }
+                      }  
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+               "description": "OK",
+               "content":{ 
+                  "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/DuplicateData"
+                  }
+                }
+                }
+              }
+             }
+            }
+          },
+          "/datasets/editdata/":{
+            "patch" :{
+                "tags": [
+                     "datasets"
+                 ],
+               "summary": "데이터 id를 전달받아 해당 데이터 정보 수정",
+               "consumes": "application/json",
+               "requestBody": {
+                "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "dname": {
+                        "type": "string",
+                        "format": "string"
+                      },
+                      "dmemo": {
+                        "type": "string",
+                        "format": "string"
+                      },
+                      "did": {
+                        "type": "string",
+                        "format": "string"
+                      }
+                      }  
+                  }
+                }
+              }
+             },
+             "responses": {
+              "200": {
+               "description": "OK",
+               "content":{ 
+                  "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/EditData"
+                  }
+                }
+                }
+              }
+             }
+           }
+          },
+          "/datasets/getdetail1/{data_id}​":{
+            "get" :{
+                "tags": [
+                     "datasets"
+                 ],
+               "summary": "데이터 개별 정보 조회 - 요약정보",
+               "parameters":[{
+                 "name": "data_id",
+                 "in": "path",
+                 "description": "data_id",
+                 "type": "string"
+               }],
+               "responses": {
+                "200": {
+                 "description": "OK",
+                 "content":{ 
+                    "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Data"
+                    }
+                  }
+                  }
+                }
+               }
+           }
+          },
+          "/datasets/getdetail2/{data_id}":{
+            "get" :{
+                "tags": [
+                     "datasets"
+                 ],
+               "summary": "데이터 개별 정보 조회 - 그래프",
+               "parameters":[{
+                 "name": "data_id",
+                 "in": "path",
+                 "description": "data_id",
+                 "type": "string"
+               }],
+               "responses": {
+                "200": {
+                 "description": "OK",
+                 "content":{ 
+                    "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Data"
+                    }
+                  }
+                  }
+                }
+               }
+           }
+          },
+          "/datasets/getdetail3/{data_id}":{
+            "get" :{
+                "tags": [
+                     "datasets"
+                 ],
+               "summary": "데이터 개별 정보 조회 - 원본데이터",
+               "parameters":[{
+                 "name": "data_id",
+                 "in": "path",
+                 "description": "data_id",
+                 "type": "string"
+               }],
+               "responses": {
+                "200": {
+                 "description": "OK",
+                 "content":{ 
+                    "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Data"
+                    }
+                  }
+                  }
+                }
+               }
+           }
+          },
+          "/datasets/uploadfile":{
+            "post" :{
+                "tags": [
+                     "datasets"
+                 ],
+               "summary": "신규 파일을 업로드한다",
+               "consumes": "multipart/form-data",
+               "requestBody": {
+                "content": {
+                "multipart/form-data": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                        "pid": {
+                          "type": "string",
+                          "format": "string"
+                        },
+                        "dname": {
+                          "type": "string",
+                          "format": "string"
+                        },
+                        "dmemo": {
+                          "type": "string",
+                          "format": "string"
+                        },
+                        "dataset": {
+                          "type": "string",
+                          "format": "binary"
+                        }
+                      }  
+                  }
+                }
+              }
+             },
+             "responses": {
+              "200": {
+               "description": "OK",
+               "content":{ 
+                  "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UploadFile"
+                  }
+                }
+                }
+              }
+             }
+              }
+          },
+          "/modelselection/choosecategory/{data_id}/":{
+            "get" :{
+                "tags": [
+                     "modelselection"
+                 ],
+               "summary": "학습유형 선택",
+               "consumes": "multipart/form-data",
+               "parameters":[{
+                "name": "data_id",
+                "in": "path",
+                "description": "data_id",
+                "type": "string"
+                }],
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          "/modelselection​/deletetemp​/{tid}​/":{
+            "delete" :{
+                "tags": [
+                     "modelselection"
+                 ],
+               "summary": "해당 페이지를 벗어날 때 Temp2에 저장된 내용을 삭제
+               시리얼라이저는 Temp것 그대로 사용",
+               "consumes": "multipart/form-data",
+               "parameters":[{
+                "name": "tid",
+                "in": "path",
+                "description": "data_id",
+                "type": "string"
+                }],
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          "/modelselection/presplit":{
+            "post" :{
+                "tags": [
+                     "modelselection"
+                 ],
+               "summary": "데이터셋 분리/스케일러 적용 페이지 진입(이미 진행하던 내용이 있을 경우 Temp2에 있는 정보 리턴)",
+               "consumes": "application/json",
+               "requestBody": {
+                "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "did": {
+                            "type": "string",
+                            "format": "string"
+                          },
+                          "tid": {
+                            "type": "string",
+                            "format": "string"
+                          }
+                        }
+                      }
+                      }  
+                  }
+                }
+              }
+             },
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          "/modelselection/savemodel/":{
+            "post" :{
+                "tags": [
+                     "modelselection"
+                 ],
+               "summary": "모델 저장",
+               "requestBody": {
+                "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "tid": {
+                            "type": "string",
+                            "format": "string"
+                          },
+                          "mname": {
+                            "type": "string",
+                            "format": "string"
+                          },
+                          "params": {
+                            "type": "integer",
+                            "format": "integer"
+                          }
+                        }
+                      }
+                      }  
+                  }
+                }
+              }
+             },
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          "​/modelselection​/savesplit​/":{
+            "post" :{
+                "tags": [
+                     "modelselection"
+                 ],
+               "summary": "데이터셋 분리/스케일러 적용 페이지 진입(이미 진행하던 내용이 있을 경우 Temp2에 있는 정보 리턴)",
+               "requestBody": {
+                "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "tid": {
+                            "type": "string",
+                            "format": "string"
+                          },
+                          "xcol": {
+                            "type": "string",
+                            "format": "string"
+                          },
+                          "ycol": {
+                            "type": "string",
+                            "format": "string"
+                          },
+                          "trainsize": {
+                            "type": "string",
+                            "format": "string"
+                          },
+                          "trainsize2": {
+                            "type": "string",
+                            "format": "string"
+                          },
+                          "testsize": {
+                            "type": "string",
+                            "format": "string"
+                          },
+                          "validsize": {
+                            "type": "string",
+                            "format": "string"
+                          },
+                          "xname": {
+                            "type": "string",
+                            "format": "string"
+                          },
+                          "yname": {
+                            "type": "string",
+                            "format": "string"
+                          }
+                        }
+                      }
+                      }  
+                  }
+                }
+              }
+             },
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },  
+          "​/modelselection​/setsplit/":{
+            "patch" :{
+                "tags": [
+                     "modelselection"
+                 ],
+               "summary": "데이터셋 분리/스케일러 적용 페이지 진입(이미 진행하던 내용이 있을 경우 Temp2에 있는 정보 리턴)",
+               "requestBody": {
+                "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "tid": {
+                            "type": "string",
+                            "format": "string"
+                          },
+                          "xcol": {
+                            "type": "string",
+                            "format": "string"
+                          },
+                          "ycol": {
+                            "type": "string",
+                            "format": "string"
+                          },
+                          "trainsize": {
+                            "type": "string",
+                            "format": "string"
+                          },
+                          "trainsize2": {
+                            "type": "string",
+                            "format": "string"
+                          },
+                          "testsize": {
+                            "type": "string",
+                            "format": "string"
+                          },
+                          "validsize": {
+                            "type": "string",
+                            "format": "string"
+                          },
+                          "scaler": {
+                            "type": "string",
+                            "format": "string"
+                          }
+                        }
+                      }
+                      }  
+                  }
+                }
+              }
+             },
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          "/multi/detail/mtid={mtid}&model={model}":{
+            "get" :{
+                "tags": [
+                     "multi"
+                 ],
+               "summary": "상세결과",
+               "parameters":[{
+                 "name": "mtid",
+                 "in": "path",
+                 "description": "mtid",
+                 "type": "string"
+               },
+               {
+                "name": "model",
+                "in": "path",
+                "description": "model",
+                "type": "string"
+              }],
+               "responses": {
+                "200": {
+                 "description": "OK",
+                 "content":{ 
+                    "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Data"
+                    }
+                  }
+                  }
+                }
+               }
+           }
+          },
+          "/multi/multiupload":{
+            "post" :{
+                "tags": [
+                     "multi"
+                 ],
+               "summary": "다중출력용 파일 업로드",
+               "consumes": "multipart/form-data",
+               "requestBody": {
+                "content": {
+                "multipart/form-data": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {     
+                        "file": {
+                          "type": "string",
+                          "format": "binary"
+                        }
+                      }  
+                  }
+                }
+              }
+             },
+             "responses": {
+              "200": {
+               "description": "OK",
+               "content":{ 
+                  "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UploadFile"
+                  }
+                }
+                }
+              }
+             }
+              }
+          },
+          "/preprocessing/deletetemp/{temp_id}":{
+            "delete" :{
+                "tags": [
+                     "preprocessing"
+                 ],
+               "summary": "해당 페이지를 벗어날 때 Temp에 저장된 내용을 삭제",
+               "parameters":[{
+                "name": "temp_id",
+                "in": "path",
+                "description": "temp_id",
+                "type": "string"
+                }],
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          "/preprocessing/preencoder/{data_id}":{
+            "get" :{
+                "tags": [
+                     "preprocessing"
+                 ],
+               "summary": "인코더 처리 페이지 진입",
+               "parameters":[{
+                "name": "data_id",
+                "in": "path",
+                "description": "data_id",
+                "type": "string"
+                }],
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          "/preprocessing/premissing/{data_id}":{
+            "get" :{
+                "tags": [
+                     "preprocessing"
+                 ],
+               "summary": "결측치 처리 페이지 진입",
+               "parameters":[{
+                "name": "data_id",
+                "in": "path",
+                "description": "data_id",
+                "type": "string"
+                }],
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          "/preprocessing/preoutlier/{data_id}":{
+            "get" :{
+                "tags": [
+                     "preprocessing"
+                 ],
+               "summary": "이상치 처리 페이지 진입",
+               "parameters":[{
+                "name": "data_id",
+                "in": "path",
+                "description": "data_id",
+                "type": "string"
+                }],
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          "/preprocessing/saveencoder":{
+            "patch" :{
+                "tags": [
+                     "preprocessing"
+                 ],
+               "summary": "Temp에 저장된 내용을 Data 파일에 적용 후 Temp 삭제",
+               "requestBody": {
+                "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "tid": {
+                            "type": "string",
+                            "format": "string"
+                          }
+                        }
+                      }
+                      }  
+                  }
+                }
+              }
+             },
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          "/preprocessing/savemissing/":{
+            "patch" :{
+                "tags": [
+                     "preprocessing"
+                 ],
+               "summary": "Temp에 저장된 내용을 Data 파일에 적용 후 Temp 삭제",
+               "requestBody": {
+                "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "tid": {
+                            "type": "string",
+                            "format": "string"
+                          }
+                        }
+                      }
+                      }  
+                  }
+                }
+              }
+             },
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          "/preprocessing/saveoutlier/":{
+            "patch" :{
+                "tags": [
+                     "preprocessing"
+                 ],
+               "summary": "Temp에 저장된 내용을 Data 파일에 적용 후 Temp 삭제",
+               "requestBody": {
+               "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "tid": {
+                            "type": "string",
+                            "format": "string"
+                          }
+                        }
+                      }
+                      }  
+                  }
+                }
+              }
+             },
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          "/preprocessing/searchoutlier/did={did}&col={col}&val={val}":{
+            "get" :{
+                "tags": [
+                     "preprocessing"
+                 ],
+               "summary": "이상치 데이터 검색",
+               "parameters":[
+                {
+                  "name": "col",
+                  "in": "path",
+                  "description": "col",
+                  "type": "string"
+                  },
+
+                  {
+                    "name": "did",
+                    "in": "path",
+                    "description": "did",
+                    "type": "string"
+                    },
+
+                    {
+                      "name": "val",
+                      "in": "path",
+                      "description": "val",
+                      "type": "string"
+                      }
+               ],
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          "/preprocessing/searchoutlier/did={did}&tid={tid}&col={col}&val={val}":{
+            "get" :{
+                "tags": [
+                     "preprocessing"
+                 ],
+               "summary": "이상치 데이터 검색",
+               "parameters":[
+                  {
+                  "name": "tid",
+                  "in": "path",
+                  "description": "tid",
+                  "type": "string"
+                  },
+                  {
+                  "name": "col",
+                  "in": "path",
+                  "description": "col",
+                  "type": "string"
+                  },
+
+                  {
+                    "name": "did",
+                    "in": "path",
+                    "description": "did",
+                    "type": "string"
+                    },
+
+                    {
+                      "name": "val",
+                      "in": "path",
+                      "description": "val",
+                      "type": "string"
+                      }
+               ],
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          "/preprocessing/setencoder":{
+            "patch" :{
+                "tags": [
+                     "preprocessing"
+                 ],
+               "summary": "개별 컬럼 인코딩 처리 방법을 Temp 파일에 적용",
+               "requestBody": {
+                "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "tid": {
+                        "type": "string",
+                        "format": "string"
+                      },
+                      "did": {
+                        "type": "string",
+                        "format": "string"
+                      },
+                      "col": {
+                        "type": "string",
+                        "format": "string"
+                      },
+                      "encoder": {
+                        "type": "string",
+                        "format": "string"
+                      }
+                      }  
+                  }
+                }
+              }
+             },
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          "/preprocessing/setmissing":{
+            "patch" :{
+                "tags": [
+                     "preprocessing"
+                 ],
+               "summary": "개별 컬럼 결측치 처리 방법을 Temp 파일에 적용",
+               "requestBody": {
+                "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "tid": {
+                        "type": "string",
+                        "format": "string"
+                      },
+                      "did": {
+                        "type": "string",
+                        "format": "string"
+                      },
+                      "ifnan": {
+                        "type": "string",
+                        "format": "string"
+                      },
+                      "col": {
+                        "type": "string",
+                        "format": "string"
+                      }
+                      }  
+                  }
+                }
+              }
+             },
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          "/preprocessing/setoutlier":{
+            "patch" :{
+                "tags": [
+                     "preprocessing"
+                 ],
+               "summary": "이상치 데이터를 Temp에 적용 (프론트에서 Json으로 전달)",
+               "requestBody": {
+                "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "did": {
+                        "type": "string",
+                        "format": "string"
+                      },
+                      "datapick": {
+                        "type": "string",
+                        "format": "string"
+                      },
+                      "tid": {
+                        "type": "string",
+                        "format": "string"
+                      }
+                      }
+                      
+                  }
+                }
+              }
+             },
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          "/projects/createproject":{
+            "post" :{
+                "tags": [
+                     "projects"
+                 ],
+               "summary": "신규 프로젝트를 등록한다",
+               "consumes": "application/json",
+               "requestBody": {
+                "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "pname": {
+                        "type": "string",
+                        "format": "string"
+                      },
+                      "pmemo": {
+                        "type": "string",
+                        "format": "string"
+                      }
+                      }  
+                  }
+                }
+              }
+             },
+             "responses": {
+              "200": {
+               "description": "OK",
+               "content":{ 
+                  "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateProject"
+                  }
+                }
+                }
+              }
+             }
+              }
+          },
+          "/projects/deleteproject/{project_id}":{
+            "delete" :{
+                "tags": [
+                     "projects"
+                 ],
+               "summary": "프로젝트를 삭제한다",
+               "parameters":[{
+                "name": "project_id",
+                "in": "path",
+                "description": "project_id",
+                "type": "string"
+                }],
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          "/projects/editproject":{
+            "patch" :{
+                "tags": [
+                     "projects"
+                 ],
+               "summary": "프로젝트를 수정한다",
+               "consumes": "application/json",
+               "requestBody": {
+                "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "pname": {
+                        "type": "string",
+                        "format": "string"
+                      },
+                      "pmemo": {
+                        "type": "string",
+                        "format": "string"
+                      },
+                      "pid": {
+                        "type": "string",
+                        "format": "string"
+                      }
+                      }  
+                  }
+                }
+              }
+             },
+             "responses": {
+              "200": {
+               "description": "OK",
+               "content":{ 
+                  "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/editProject"
+                  }
+                }
+                }
+              }
+             }
+            }
+           },
+          "/projects/projectlist":{
+            "get" :{
+                "tags": [
+                     "projects"
+                 ],
+               "summary": "프로젝트 리스트를 조회한다 (idx, 프로젝트명, 프로젝트설명, 포함된 데이터셋 수)",
+               "responses": {
+                  "200": {
+                   "description": "OK",
+                   "content":{ 
+                      "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/projectList"
+                      }
+                    }
+                    }
+                  }
+           }
+           }
+           },
+          "/traintest/deletetemp/mid={mid}&tdid={tdid}":{
+            "delete" :{
+                "tags": [
+                     "traintest"
+                 ],
+               "summary": "해당 페이지를 벗어날 때 Temp3에 저장된 내용을 삭제",
+               "parameters":[{
+                 "name": "mid",
+                 "in": "path",
+                 "description": "mid",
+                 "type": "string",
+                 "required":true
+               },
+               {
+                "name": "tdid",
+                "in": "path",
+                "description": "tdid",
+                "type": "string",
+                "required":true
+              }],
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+           }
+           }
+           }
+           },
+          "/traintest/enterresult/{mid}":{
+            "get" :{
+                "tags": [
+                     "traintest"
+                 ],
+               "summary": "프로젝트 id를 전달받아 해당 프로젝트에 포함된 데이터 리스트를 반환",
+               "parameters":[{
+                 "name": "mid",
+                 "in": "path",
+                 "description": "mid",
+                 "type": "string",
+                 "required": true
+               }],
+               "responses": {
+                "200": {
+                 "description": "OK",
+                 "content":{ 
+                    "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Data"
+                    }
+                  }
+                  }
+                }
+               }
+           }
+          },
+          "/traintest/entertest/mid={mid}&tdid={tdid}":{
+            "get" :{
+                "tags": [
+                     "traintest"
+                 ],
+               "summary": "선택된 모델과 테스트셋의 정보와 결과용 임시데이터를 리턴한다",
+               "parameters":[{
+                 "name": "mid",
+                 "in": "path",
+                 "description": "mid",
+                 "type": "string",
+                 "required": true
+               },
+               {
+                "name": "tdid",
+                "in": "path",
+                "description": "tdid",
+                "type": "string",
+                "required": true
+              }],
+               "responses": {
+                "200": {
+                 "description": "OK",
+                 "content":{ 
+                    "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Data"
+                    }
+                  }
+                  }
+                }
+               }
+           }
+          },
+          "/traintest/entertrain/{mid}":{
+            "get" :{
+                "tags": [
+                     "traintest"
+                 ],
+               "summary": "모델을 선택해 세부내용을 본다.",
+               "parameters":[{
+                 "name": "mid",
+                 "in": "path",
+                 "description": "mid",
+                 "type": "string",
+                 "required": true
+               }],
+               "responses": {
+                "200": {
+                 "description": "OK",
+                 "content":{ 
+                    "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Data"
+                    }
+                  }
+                  }
+                }
+               }
+           }
+          },
+          "/traintest/entervalid/{mid}":{
+            "get" :{
+                "tags": [
+                     "traintest"
+                 ],
+               "summary": "모델 ID를 전달받아 검증결과를 리턴한다.",
+               "parameters":[{
+                 "name": "mid",
+                 "in": "path",
+                 "description": "mid",
+                 "type": "string",
+                 "required": true
+               }],
+               "responses": {
+                "200": {
+                 "description": "OK",
+                 "content":{ 
+                    "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Data"
+                    }
+                  }
+                  }
+                }
+               }
+           }
+          },
+          "/traintest/enterxai/{mid}":{
+            "get" :{
+                "tags": [
+                     "traintest"
+                 ],
+               "summary": "모델 ID를 전달받아 XAI 결과를 리턴한다.",
+               "parameters":[{
+                 "name": "mid",
+                 "in": "path",
+                 "description": "mid",
+                 "type": "string",
+                 "required": true
+               }],
+               "responses": {
+                "200": {
+                 "description": "OK",
+                 "content":{ 
+                    "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Data"
+                    }
+                  }
+                  }
+                }
+               }
+           }
+          },
+          "/traintest/pretest/{mid}":{
+            "get" :{
+                "tags": [
+                     "traintest"
+                 ],
+               "summary": "모델ID를 전달받고, 동일 프로젝트에 포함된 데이터셋리스트를 리턴한다",
+               "parameters":[{
+                 "name": "mid",
+                 "in": "path",
+                 "description": "mid",
+                 "type": "string",
+                 "required": true
+               }],
+               "responses": {
+                "200": {
+                 "description": "OK",
+                 "content":{ 
+                    "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Data"
+                    }
+                  }
+                  }
+                }
+               }
+           }
+          },
+          "/traintest/starttest/mid={mid}&tdid={tdid}":{
+            "get" :{
+                "tags": [
+                     "traintest"
+                 ],
+               "summary": "모델 ID와 데이터 ID를 전달받아 \
+               선택된 테스트 데이터로 예측을 실행하고 건별 결과를 Temp3에 저장한다.
+               선택된 데이터가 모델에 적합하지 않을 때는 에러메세지를 리턴한다.",
+               "parameters":[{
+                 "name": "mid",
+                 "in": "path",
+                 "description": "mid",
+                 "type": "string",
+                 "required": true
+               },
+               {
+                "name": "tdid",
+                "in": "path",
+                "description": "tdid",
+                "type": "string",
+                "required": true
+              }],
+               "responses": {
+                "200": {
+                 "description": "OK",
+                 "content":{ 
+                    "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Data"
+                    }
+                  }
+                  }
+                }
+               }
+           }
+          },
+          "/traintest/starttrain/":{
+            "patch" :{
+                "tags": [
+                     "traintest"
+                 ],
+               "summary": "학습할 모델을 생성해 pkl로 저장하고 학습을 실행한다.
+               이때 결과 내용은 TrainResult와 ValidResult에 저장한다.",
+               "requestBody": {
+                "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "mid": {
+                        "type": "string",
+                        "format": "string"
+                      }
+                      }  
+                  }
+                }
+              }
+             },
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          "/user/createuser/":{
+            "post" :{
+                "tags": [
+                     "user"
+                 ],
+               "summary": "신규 유저를를 등록한다(OWP에서 user id만 가져와서 등록)",
+               "requestBody": {
+                "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "userid": {
+                        "type": "string",
+                        "format": "string",
+                        "required": true,
+                      }
+                      }  
+                  }
+                }
+              }
+             },
+               "responses": {
+               "200": {
+                   "description": "OK",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               },
+               "404": {
+                   "description": "NOT FOUND",
+                   "schema": {
+                   "$ref": "#/components/schemas/TodoList"
+                   }
+               }
+                 }
+              }
+          },
+          }
+        }
+        
+  
